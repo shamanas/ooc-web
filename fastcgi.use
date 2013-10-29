@@ -3,4 +3,4 @@ Version: 1.0
 Origin: git://github.com/joshthecoder/ooc-fastcgi.git
 Description: FastCGI interface binding
 Libs: -lfcgi
-SourcePath: .
+SourcePath: source/servers/fastcgi

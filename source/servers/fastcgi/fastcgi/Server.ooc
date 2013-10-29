@@ -3,6 +3,7 @@ import web/[Server, Application]
 import fastcgi/fcgx
 import io/[Reader, Writer]
 
+fcgx_fclose: extern(FCGX_FClose) proto func(FCGXStream*) -> Int
 
 /**
  * A ooc.web compatible Server.
@@ -114,16 +115,18 @@ FCGIBodyReader: class extends Reader {
         return c
     }
 
-    hasNext: func -> Bool {
+    hasNext?: func -> Bool {
         c := FCGX getChar(stream)
         if (c == -1) return false
         FCGX unGetChar(c, stream)
         return true
     }
 
+    seek: func(off: Long, mode: SeekMode) -> Bool { Exception new("Seek not supported") throw(); false }
     rewind: func(offset: Int) { Exception new("Rewind not supported") throw() }
     mark: func -> Long { marker }
     reset: func(marker: Long) { Exception new("Reset not supported") throw() }
+    close: func { fcgx_fclose(stream) }
 }
 
 FCGIBodyWriter: class extends Writer {
@@ -131,7 +134,7 @@ FCGIBodyWriter: class extends Writer {
 
     init: func(=stream) {}
 
-    close: func {}
+    close: func { fcgx_fclose(stream) }
 
     write: func ~chr (chr: Char) {
         if (FCGX putChar(chr, stream) == -1) {
