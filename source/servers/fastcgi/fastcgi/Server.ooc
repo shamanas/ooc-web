@@ -33,11 +33,11 @@ FCGIServer: class extends Server {
         while (FCGX accept(fcgi&) == 0) {
             // parse and setup request
             request := FCGIRequest new(fcgi envp, fcgi in)
-            request path = FCGX getParam("REQUEST_URI", fcgi envp)
-            request method = FCGX getParam("REQUEST_METHOD", fcgi envp)
-            request remoteAddress = FCGX getParam("REMOTE_ADDR", fcgi envp)
-            request remoteHost = FCGX getParam("REMOTE_HOST", fcgi envp)
-            request remotePort = FCGX getParam("REMOTE_PORT", fcgi envp)
+            request path = FCGX getParam("REQUEST_URI", fcgi envp) toString()
+            request method = FCGX getParam("REQUEST_METHOD", fcgi envp) toString()
+            request remoteAddress = FCGX getParam("REMOTE_ADDR", fcgi envp) toString()
+            request remoteHost = FCGX getParam("REMOTE_HOST", fcgi envp) toString()
+            request remotePort = FCGX getParam("REMOTE_PORT", fcgi envp) toString()
 
             // dispatch request to Application
             application request = request
@@ -56,7 +56,7 @@ FCGIRequest: class extends Request {
     init: func(=_envp, =stream) {}
 
     getHeader: func(name: String) -> String {
-        value := FCGX getParam("HTTP_%s" format(name toUpper()), _envp)
+        value := FCGX getParam("HTTP_%s" format(name toUpper()), _envp) toString()
         if (value != null) return value clone()
         else return value
     }

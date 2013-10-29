@@ -15,7 +15,7 @@ FCGXRequest: cover from struct FCGX_Request {
 FCGX: cover {
     init: extern(FCGX_Init) static func -> Int
     isCGI: extern(FCGX_IsCGI) static func -> Int
-    openSocket: extern(FCGX_OpenSocket) static func(String, Int) -> Int
+    openSocket: extern(FCGX_OpenSocket) static func(CString, Int) -> Int
     initRequest: extern(FCGX_InitRequest) static func(FCGXRequest*, Int, Int) -> Int
     accept: extern(FCGX_Accept_r) static func(FCGXRequest*) -> Int
     finish: extern(FCGX_Finish_r) static func(FCGXRequest*)
@@ -24,12 +24,12 @@ FCGX: cover {
 
     getChar: extern(FCGX_GetChar) static func(FCGXStream*) -> Char
     unGetChar: extern(FCGX_UnGetChar) static func(Char, FCGXStream*) -> Char
-    getString: extern(FCGX_GetStr) static func(String, Int, FCGXStream*) -> Int
-    getLine: extern(FCGX_GetLine) static func(String, Int, FCGXStream*) -> String
+    getCString: extern(FCGX_GetStr) static func(CString, Int, FCGXStream*) -> Int
+    getLine: extern(FCGX_GetLine) static func(CString, Int, FCGXStream*) -> CString
     putChar: extern(FCGX_PutChar) static func(Char, FCGXStream*) -> Int
-    putStringWithLength: extern(FCGX_PutStr) static func(String, Int, FCGXStream*) -> Int
-    putString: extern(FCGX_PutS) static func(String, FCGXStream*) -> Int
-    getParam: extern(FCGX_GetParam) static func(String, Pointer) -> String
+    putCStringWithLength: extern(FCGX_PutStr) static func(CString, Int, FCGXStream*) -> Int
+    putCString: extern(FCGX_PutS) static func(CString, FCGXStream*) -> Int
+    getParam: extern(FCGX_GetParam) static func(CString, Pointer) -> CString
 
     hasSeenEOF: extern(FCGX_HasSeenEOF) static func(FCGXStream*) -> Int
     getError: extern(FCGX_GetError) static func(FCGXStream*) -> Int
